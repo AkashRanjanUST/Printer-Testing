@@ -33,7 +33,7 @@ class PrintRouterControllerWebTest {
 
     private static final String URL = "/api/v1/printroute/send";
 
-    /** A complete, realistic request body as a warehouse app would send it. */
+    /** Mocking real request body */
     private static final String VALID_JSON = """
             {
               "requestId": "UI-REQ-1",

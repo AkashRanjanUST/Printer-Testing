@@ -60,7 +60,6 @@ class PrinterIppPropertiesTest {
     @DisplayName("Spring property binding")
     class Binding {
 
-        /** Minimal Spring config: registers only PrinterIppProperties, nothing else. */
         @Configuration(proxyBeanMethods = false)
         @EnableConfigurationProperties(PrinterIppProperties.class)
         static class PropertiesConfig {

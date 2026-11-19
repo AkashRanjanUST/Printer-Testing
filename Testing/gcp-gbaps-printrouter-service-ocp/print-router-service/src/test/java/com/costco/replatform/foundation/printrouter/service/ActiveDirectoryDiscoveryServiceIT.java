@@ -6,7 +6,6 @@ import com.costco.replatform.foundation.printrouter.model.PrinterMetadata;
 import com.unboundid.ldap.listener.InMemoryDirectoryServer;
 import com.unboundid.ldap.listener.InMemoryDirectoryServerConfig;
 import com.unboundid.ldap.listener.InMemoryListenerConfig;
-import com.unboundid.ldap.sdk.LDAPException;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -88,9 +87,7 @@ class ActiveDirectoryDiscoveryServiceIT {
         return result.getResponse().getPrinterList();
     }
 
-    // =====================================================================
     // Search and mapping against a live directory
-    // =====================================================================
 
     @Test
     @DisplayName("Location search returns only that warehouse's queues, with all attributes mapped")
@@ -139,9 +136,7 @@ class ActiveDirectoryDiscoveryServiceIT {
         assertThat(discover("77777")).isNotNull().isEmpty();
     }
 
-    // =====================================================================
     // Security and scale
-    // =====================================================================
 
     @Test
     @DisplayName("LDAP injection: location '*' is escaped, so it does NOT match every queue")
@@ -163,9 +158,7 @@ class ActiveDirectoryDiscoveryServiceIT {
         assertThat(discover("05000")).hasSize(1005);
     }
 
-    // =====================================================================
     // Connection failures (CURRENT BEHAVIOUR: reported as ok() with a null list)
-    // =====================================================================
 
     @Test
     @DisplayName("CURRENT BEHAVIOUR: wrong bind password -> real AuthenticationException -> ok(null)")

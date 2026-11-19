@@ -62,9 +62,7 @@ class ActiveDirectoryDiscoveryServiceTest {
         ReflectionTestUtils.setField(service, "domainDn", BASE_DN);
     }
 
-    // =====================================================================
     // Test doubles
-    // =====================================================================
 
     /** A simple NamingEnumeration over fixed results, optionally failing at the end. */
     private static final class FakeEnumeration implements NamingEnumeration<SearchResult> {
@@ -145,9 +143,7 @@ class ActiveDirectoryDiscoveryServiceTest {
         return result.getResponse().getPrinterList();
     }
 
-    // =====================================================================
     // 1. Connection settings
-    // =====================================================================
 
     @Test
     @DisplayName("connect() builds the LDAP URL and environment from the @Value fields")
@@ -171,9 +167,7 @@ class ActiveDirectoryDiscoveryServiceTest {
         }
     }
 
-    // =====================================================================
     // 2. LDAP filter building
-    // =====================================================================
 
     @Test
     @DisplayName("Location -> filter restricted to that location; subtree search of the 5 attributes")
@@ -245,9 +239,7 @@ class ActiveDirectoryDiscoveryServiceTest {
         }
     }
 
-    // =====================================================================
     // 3. Mapping search results to PrinterMetadata
-    // =====================================================================
 
     @Test
     @DisplayName("All five LDAP attributes are mapped to PrinterMetadata")
@@ -317,9 +309,7 @@ class ActiveDirectoryDiscoveryServiceTest {
         }
     }
 
-    // =====================================================================
     // 4. Enumeration and paging
-    // =====================================================================
 
     @Test
     @DisplayName("PartialResultException (referral) keeps results read so far; enumeration is closed")
@@ -376,9 +366,7 @@ class ActiveDirectoryDiscoveryServiceTest {
         }
     }
 
-    // =====================================================================
     // 5. Error handling
-    // =====================================================================
 
     @Test
     @DisplayName("CURRENT BEHAVIOUR: NamingException during search -> ok() with null list; context closed")
@@ -441,9 +429,7 @@ class ActiveDirectoryDiscoveryServiceTest {
         }
     }
 
-    // =====================================================================
     // 6. Unused 2-argument searchPrintQueues overload (called via reflection)
-    // =====================================================================
 
     @SuppressWarnings("unchecked")
     private List<PrinterMetadata> invokeTwoArgSearch(LdapContext ctx) throws Exception {

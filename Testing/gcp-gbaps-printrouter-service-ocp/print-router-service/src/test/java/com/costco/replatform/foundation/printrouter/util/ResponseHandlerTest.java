@@ -23,7 +23,7 @@ class ResponseHandlerTest {
 
     @BeforeEach
     void setUp() {
-        handler = new ResponseHandler(); // no dependencies, so no Spring or mocks needed
+        handler = new ResponseHandler(); // no dependencies
     }
 
     private static PrinterIppResponse serviceResponseWith(ResponseData data) {
@@ -101,12 +101,12 @@ class ResponseHandlerTest {
 
         @ParameterizedTest(name = "service status {0} -> HTTP {1}")
         @CsvSource({
-                "1,    1",      // boundary: smallest positive value passes through
+                "1,    1",
                 "200,  200",
                 "404,  404",
                 "599,  599",
-                "0,    500",    // boundary: zero falls back
-                "-1,   500",    // negative falls back
+                "0,    500",
+                "-1,   500",
                 "-500, 500"
         })
         void resolvesStatus(int serviceStatus, int expectedHttpStatus) {
@@ -166,7 +166,6 @@ class ResponseHandlerTest {
             assertThat(result.data().isOk()).isTrue();
             assertThat(result.data().getStatus()).isEqualTo(200);
             assertThat(result.data().getMessage()).isEqualTo("Printed");
-            // If ResponseHandler is fixed, update these expectations.
             assertThat(result.success()).isFalse();
             assertThat(result.message()).isEqualTo("IPP request interrupted");
             assertThat(result.ippStatus()).isBetween(1, Integer.MAX_VALUE - 1);

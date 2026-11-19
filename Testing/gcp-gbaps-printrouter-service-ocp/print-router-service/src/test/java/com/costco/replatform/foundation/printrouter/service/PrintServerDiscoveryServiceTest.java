@@ -48,7 +48,7 @@ class PrintServerDiscoveryServiceTest {
 
     @BeforeEach
     void setUp() throws IOException {
-        // A real HTTP server on 127.0.0.1, random free port - built into the JDK.
+        // A real HTTP server on 127.0.0.1
         server = HttpServer.create(new InetSocketAddress(InetAddress.getLoopbackAddress(), 0), 0);
         server.createContext("/", exchange -> {
             byte[] body = exchange.getRequestBody().readAllBytes();
@@ -106,9 +106,7 @@ class PrintServerDiscoveryServiceTest {
         return result.getResponse();
     }
 
-    // =====================================================================
     // 1. Response status branches
-    // =====================================================================
 
     @Test
     @DisplayName("200 with IPP body -> SUCCESS; request is a POST of the Get-Printer-Attributes payload")
@@ -182,9 +180,7 @@ class PrintServerDiscoveryServiceTest {
         assertThat(response.getMessage()).isEqualTo("Server returned status code: 202");
     }
 
-    // =====================================================================
     // 2. Authentication
-    // =====================================================================
 
     @Test
     @DisplayName("401 Basic challenge -> JDK calls our Authenticator, retries with configured credentials")
@@ -208,9 +204,7 @@ class PrintServerDiscoveryServiceTest {
         assertThat(requests.get(1).authorization()).isEqualTo(expected);
     }
 
-    // =====================================================================
     // 3. Failures are swallowed
-    // =====================================================================
 
     @Test
     @DisplayName("CURRENT BEHAVIOUR: invalid URL -> exception swallowed, ok(null) returned")
@@ -235,9 +229,7 @@ class PrintServerDiscoveryServiceTest {
         assertThat(result.getResponse()).isNull();
     }
 
-    // =====================================================================
     // 4. URI conversion (https branch cannot be reached with a plain HTTP test server)
-    // =====================================================================
 
     @Test
     @DisplayName("buildIppUri: http -> ipp, https -> ipps")

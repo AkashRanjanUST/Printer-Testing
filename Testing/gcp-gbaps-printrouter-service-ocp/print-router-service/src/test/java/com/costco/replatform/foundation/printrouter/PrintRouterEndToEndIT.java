@@ -29,8 +29,7 @@ import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMoc
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * End-to-end: real HTTP request -> full Spring Boot app (random port) -> real LDAP search
- * against an in-memory directory -> real IPP over HTTP to WireMock. No mocks.
+ * End-to-end: real HTTP request -> full Spring Boot app
  */
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
@@ -43,7 +42,6 @@ class PrintRouterEndToEndIT {
     private static final String QUEUE_PATH = "/printers/";
     private static final int ITEM_NO = 7;
 
-    // Started in a static block so they are running BEFORE Spring reads @DynamicPropertySource.
     private static final InMemoryDirectoryServer DIRECTORY = startDirectory();
     private static final WireMockServer PRINT_SERVER = startPrintServer();
 
@@ -67,7 +65,6 @@ class PrintRouterEndToEndIT {
         return server;
     }
 
-    /** Points the real application at the two stand-in servers. */
     @DynamicPropertySource
     static void wireApplicationToTestServers(DynamicPropertyRegistry registry) {
         registry.add("printer.ipp.queue-url", () -> PRINT_SERVER.baseUrl() + QUEUE_PATH);
@@ -98,9 +95,7 @@ class PrintRouterEndToEndIT {
         DIRECTORY.add("dn: " + PRINTERS_OU, "objectClass: top", "objectClass: organizationalUnit", "ou: Printers");
     }
 
-    // =====================================================================
     // Helpers
-    // =====================================================================
 
     private static void addPrintQueue(String cn, String location) throws Exception {
         DIRECTORY.add(
@@ -161,9 +156,7 @@ class PrintRouterEndToEndIT {
         return client.send(request, HttpResponse.BodyHandlers.ofString());
     }
 
-    // =====================================================================
     // End-to-end scenarios
-    // =====================================================================
 
     @Test
     @DisplayName("Happy path: AD finds the warehouse printer, print server accepts -> 200 PRINT_REQUESTED")
@@ -189,7 +182,6 @@ class PrintRouterEndToEndIT {
 
         HttpResponse<String> response = sendPrintRequest("01680");
 
-        // LDAP result order is not guaranteed, so assert the outcome, not the order:
         assertThat(response.statusCode()).isEqualTo(200);
         PRINT_SERVER.verify(1, postRequestedFor(urlEqualTo(QUEUE_PATH))
                 .withRequestBody(containing(QUEUE_PATH + "Laser2")));
