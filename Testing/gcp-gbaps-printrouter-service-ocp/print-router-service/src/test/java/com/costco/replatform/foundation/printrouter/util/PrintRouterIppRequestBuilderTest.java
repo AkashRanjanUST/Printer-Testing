@@ -17,7 +17,7 @@ class PrintRouterIppRequestBuilderTest {
     @DisplayName("Header: IPP 1.1, Get-Printer-Attributes (0x000B), request ID")
     void header_isIpp11GetPrinterAttributes() throws Exception {
         byte[] request = PrintRouterIppRequestBuilder.createGetPrinterAttributesRequest(1, PRINTER_URI);
-        ByteBuffer buffer = ByteBuffer.wrap(request); // big-endian by default, same as IPP
+        ByteBuffer buffer = ByteBuffer.wrap(request);
 
         assertThat(buffer.get()).as("major version").isEqualTo((byte) 0x01);
         assertThat(buffer.get()).as("minor version").isEqualTo((byte) 0x01);
@@ -30,7 +30,7 @@ class PrintRouterIppRequestBuilderTest {
     void body_containsAttributesInOrderAndEndTag() throws Exception {
         byte[] request = PrintRouterIppRequestBuilder.createGetPrinterAttributesRequest(1, PRINTER_URI);
         ByteBuffer buffer = ByteBuffer.wrap(request);
-        buffer.position(8); // skip the 8-byte header
+        buffer.position(8);
 
         assertThat(buffer.get()).as("operation-attributes group tag").isEqualTo((byte) 0x01);
 
@@ -90,7 +90,7 @@ class PrintRouterIppRequestBuilderTest {
         assertThat(new PrintRouterIppRequestBuilder()).isNotNull();
     }
 
-    // ---------- helpers: read IPP attributes back out of the byte array ----------
+    // helpers: read IPP attributes back out of the byte array
 
     /** Reads one attribute (tag, name length, name, value length, value) and checks each part. */
     private static void assertAttribute(ByteBuffer buffer, byte expectedTag,

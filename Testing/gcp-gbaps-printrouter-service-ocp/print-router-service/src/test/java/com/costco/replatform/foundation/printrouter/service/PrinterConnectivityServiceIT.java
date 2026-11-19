@@ -75,9 +75,7 @@ class PrinterConnectivityServiceIT {
         return service.sendPrintRequest(ITEM_NO, "Laser1", "JOB");
     }
 
-    // =====================================================================
     // Happy path - what actually goes over the wire
-    // =====================================================================
 
     @Test
     @DisplayName("Accepted job: correct headers, Basic auth and IPP Print-Job body arrive at the server")
@@ -125,9 +123,7 @@ class PrinterConnectivityServiceIT {
         printServer.verify(1, postRequestedFor(urlEqualTo("/printers-moved/")));
     }
 
-    // =====================================================================
     // Print server answers, but not with success
-    // =====================================================================
 
     @Test
     @DisplayName("IPP rejection (0x0406 client-error-not-found) over HTTP 200 -> failure, 502")
@@ -188,9 +184,7 @@ class PrinterConnectivityServiceIT {
         assertThat(result.getMessage()).isEqualTo("IPP response request ID mismatch. Expected: 7, received: 999");
     }
 
-    // =====================================================================
     // Network failures that are hard to reproduce against a real printer
-    // =====================================================================
 
     @Test
     @DisplayName("Server slower than the 1s request timeout -> real HttpTimeoutException -> 502")

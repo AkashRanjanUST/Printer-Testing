@@ -27,7 +27,6 @@ class GlobalExceptionHandlerTest {
 
     @BeforeEach
     void setUp() {
-        // MessageSource is @Autowired but never used, so it can stay null.
         handler = new GlobalExceptionHandler();
     }
 

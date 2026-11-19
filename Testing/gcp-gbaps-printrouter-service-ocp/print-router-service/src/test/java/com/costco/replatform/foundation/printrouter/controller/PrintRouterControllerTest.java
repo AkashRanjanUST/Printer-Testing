@@ -55,9 +55,7 @@ class PrintRouterControllerTest {
         controller = new PrintRouterController(adService, printService);
     }
 
-    // =====================================================================
     // Helpers
-    // =====================================================================
 
     private static PrintMetadata metadata() {
         PrintMetadata m = new PrintMetadata();
@@ -100,7 +98,7 @@ class PrintRouterControllerTest {
         when(adService.discoverPrintersByLocation(any())).thenReturn(ApiResponse.ok(discovery));
     }
 
-    /** The named printer answers with the given HTTP status. */
+    /** The named printr answers with the given HTTP status. */
     private void printerAnswers(String printerName, int httpStatus) {
         PrinterIppResponse ipp = new PrinterIppResponse(httpStatus, 0, 7, "msg", httpStatus == 200, null);
         when(printService.sendPrintRequest(anyInt(), eq(printerName), any()))
@@ -122,9 +120,7 @@ class PrintRouterControllerTest {
         assertThat(result.getBody().getResponse().getPrintStatus()).isNull();
     }
 
-    // =====================================================================
     // 1. Input shape
-    // =====================================================================
 
     @Test
     @DisplayName("Null ApiRequest -> 400; no discovery, no printing")
@@ -156,9 +152,7 @@ class PrintRouterControllerTest {
         verify(printService).sendPrintRequest(eq(0), eq("Laser1"), isNull());
     }
 
-    // =====================================================================
     // 2. Routing across printers
-    // =====================================================================
 
     @Test
     @DisplayName("First printer returns 200 -> routed; later printers are not tried")
@@ -239,9 +233,7 @@ class PrintRouterControllerTest {
         verifyNoInteractions(printService);
     }
 
-    // =====================================================================
     // 3. Crash paths (CURRENT BEHAVIOUR - no validation on the request body)
-    // =====================================================================
 
     @Test
     @DisplayName("CURRENT BEHAVIOUR: missing documentType -> NullPointerException (would be HTTP 500)")
@@ -265,9 +257,7 @@ class PrintRouterControllerTest {
                 .isInstanceOf(NullPointerException.class);
     }
 
-    // =====================================================================
     // 4. mask() - private static helper used when logging the user id
-    // =====================================================================
 
     static Stream<Arguments> maskCases() {
         return Stream.of(

@@ -59,9 +59,7 @@ class PrinterConnectivityServiceTest {
         ReflectionTestUtils.setField(service, "httpClient", httpClient); // ...which we swap for a mock
     }
 
-    // =====================================================================
     // Helpers
-    // =====================================================================
 
     private static PrinterIppProperties validProperties() {
         PrinterIppProperties p = new PrinterIppProperties();
@@ -111,9 +109,7 @@ class PrinterConnectivityServiceTest {
         assertThat(result.getMessage()).isEqualTo(expectedMessage);
     }
 
-    // =====================================================================
     // 1. validateInput() - every check, plus the HTTPS happy path
-    // =====================================================================
 
     static Stream<Arguments> invalidConfigurations() {
         return Stream.of(
@@ -163,9 +159,7 @@ class PrinterConnectivityServiceTest {
         assertThat(send().isSuccess()).isTrue();
     }
 
-    // =====================================================================
     // 2. processResponse() - HTTP status branches
-    // =====================================================================
 
     @Test
     @DisplayName("401 with WWW-Authenticate header -> scheme included, 401 returned")
@@ -218,9 +212,7 @@ class PrinterConnectivityServiceTest {
         assertFailure(send(), 502, "IPP HTTP request failed with status " + status);
     }
 
-    // =====================================================================
     // 3. processResponse() - IPP body branches
-    // =====================================================================
 
     @Test
     @DisplayName("200 with null body -> not a valid IPP response (502)")
@@ -316,9 +308,7 @@ class PrinterConnectivityServiceTest {
                 .endsWith(String.format("0x%04X %s", ippStatus, expectedDescription));
     }
 
-    // =====================================================================
     // 4. Exception handling in sendPrintRequest()
-    // =====================================================================
 
     @Test
     @DisplayName("IOException with message -> 502 with that message")
@@ -364,9 +354,7 @@ class PrinterConnectivityServiceTest {
         assertFailure(send(), 500, "Unexpected error while sending IPP request: boom");
     }
 
-    // =====================================================================
     // 5. What is actually sent: HTTP request + IPP payload + constructor
-    // =====================================================================
 
     @Test
     @DisplayName("HTTP request: POST to queue URL with IPP headers and Basic auth")

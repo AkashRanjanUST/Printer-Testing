@@ -54,7 +54,7 @@ class ModelPojoTest {
             Method setter = property.getWriteMethod();
             Method getter = findGetter(pojoClass, property);
             if (setter == null || getter == null) {
-                continue; // read-only or write-only property; JaCoCo will show it if uncovered
+                continue; // read-only or write-only
             }
 
             Object value = sampleValue(setter.getParameterTypes()[0], property.getName());
